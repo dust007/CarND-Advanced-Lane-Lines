@@ -120,6 +120,10 @@ I implemented this step in code cell with function name `draw_curve_on_image()` 
 
 Here's a [link to my video result](./project_video_output.mp4)
 
+As the first version of video pipeline fails as several frames, where the green lane box goes out of the lane boundary and also in some frames the box is twisted. I took the feedback from project review and applied lane line tracking and sanity check technique. The code is in code cell `process_clip()` in  `./advanced_lane.ipynb` . It uses previous 9 frames' lane as an average to draw lane on current frame. The sanity check is using lane line's x position, if the current frame's lane position shifts more than 20% of previous average, the current frame is considered as a bad one, and its lane line data is dropped.
+
+With those two techniques, the new version of video pipeline looks much smoother, and the previous failure of finding lanes are fixed.
+
 ---
 
 ### Discussion
@@ -132,4 +136,4 @@ Here I'll talk about the approach I took. The techniques I used are all based on
 * To create binary image using color transform and gradients worked well for most of the cases, but for some special case, i.e. low/high light on the road, road with lines other than lane lines, the binary generation may fail. I tried to adjust color and gradient threshold and use h or l channel other than s channel, the code has the optimal threshold in all my trials. 
 * Perspective transform worked well too and it is straight forward. However, the transform points are hard coded in the program, and the transformation should be considered to real world dimension calculation of curve and vehicle position. Both can be improved.
 * I used histogram and slide window techniques in the lecture to find lane lines, and they worked well. The efficiency can be improved by applying tracking line technique to reduce searching spacing for sliding window.
-*  The overall project design is very well and I wished I could have more time to play with those techniques. I learned a ton of computer vision techniques for lane finding in addition to the very first project of basic lane finding. Thanks for preparing such a great project.
+* The overall project design is very well and I wished I could have more time to play with those techniques. I learned a ton of computer vision techniques for lane finding in addition to the very first project of basic lane finding. Thanks for preparing such a great project.
